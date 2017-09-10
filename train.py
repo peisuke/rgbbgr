@@ -9,7 +9,7 @@ from chainer.training import extensions
 from chainer.datasets import get_cifar10
 from chainer.datasets import get_cifar100
 
-import net
+from net import *
     
 def gen_dataset(data):
     image_rgb = data.copy()
@@ -59,7 +59,7 @@ def main():
     train = gen_dataset(train)
     test = gen_dataset(test)
 
-    net = net.Net(2)
+    net = Net(2)
     model = L.Classifier(net)
     
     if args.gpu >= 0:
