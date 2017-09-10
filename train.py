@@ -82,7 +82,8 @@ def main():
     train = gen_dataset(train)
     test = gen_dataset(test)
 
-    model = L.Classifier(Net(2))
+    net = Net(2)
+    model = L.Classifier(net)
     
     if args.gpu >= 0:
         # Make a specified GPU current
@@ -110,7 +111,7 @@ def main():
     trainer.extend(extensions.snapshot(filename='snapshot_epoch_{.updater.epoch}'), 
         trigger=(args.epoch, 'epoch'))
     trainer.extend(extensions.snapshot_object(
-        model, 'model_epoch_{.updater.epoch}'), trigger=(args.epoch, 'epoch'))
+        net, 'net_epoch_{.updater.epoch}'), trigger=(args.epoch, 'epoch'))
 
     # Write a log of evaluation statistics for each epoch
     trainer.extend(extensions.LogReport())
