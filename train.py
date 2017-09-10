@@ -1,5 +1,6 @@
 from __future__ import print_function
 import argparse
+import numpy as np
 
 import chainer
 import chainer.links as L
@@ -49,7 +50,7 @@ def main():
                         help='The dataset to use: cifar10 or cifar100')
     parser.add_argument('--batchsize', '-b', type=int, default=128,
                         help='Number of images in each mini-batch')
-    parser.add_argument('--epoch', '-e', type=int, default=50,
+    parser.add_argument('--epoch', '-e', type=int, default=30,
                         help='Number of sweeps over the dataset to train')
     parser.add_argument('--gpu', '-g', type=int, default=0,
                         help='GPU ID (negative value indicates CPU)')
@@ -106,7 +107,10 @@ def main():
     trainer.extend(extensions.dump_graph('main/loss'))
 
     # Take a snapshot at each epoch
-    trainer.extend(extensions.snapshot(), trigger=(args.epoch, 'epoch'))
+    trainer.extend(extensions.snapshot(filename='snapshot_epoch_{.updater.epoch}'), 
+        trigger=(args.epoch, 'epoch'))
+    trainer.extend(extensions.snapshot_object(
+        model, 'model_epoch_{.updater.epoch}'), trigger=(args.epoch, 'epoch'))
 
     # Write a log of evaluation statistics for each epoch
     trainer.extend(extensions.LogReport())
