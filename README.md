@@ -9,4 +9,16 @@
 
 ## 使い方
 
-- ソース読め
+requirements: chainer >= 2.0, numpy, pillow。
+
+### 学習
+
+```
+python train.py --gpu 0
+```
+
+### 識別
+
+```
+python predict.py -i cat.jpg
+```
